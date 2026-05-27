@@ -12,6 +12,7 @@ COPY --from=builder /usr/src/dist/output ./output
 ENV HOST=0.0.0.0 PORT=3000 NODE_ENV=production
 EXPOSE $PORT
 # Add a healthcheck so Docker knows when the server is ready
-HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+# Increased start-period to 15s to give the server more time to initialize
+HEALTHCHECK --interval=30s --timeout=10s --start-period=15s --retries=3 \
   CMD wget -qO- http://localhost:$PORT/ || exit 1
 CMD ["node", "output/server/index.mjs"]
